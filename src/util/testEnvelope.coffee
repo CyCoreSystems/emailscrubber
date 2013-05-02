@@ -1,4 +1,4 @@
-config = require 'config'.testEnvelope
+config = require('config').testEnvelope
 simplesmtp = require 'simplesmtp'
 
 module.exports = testEnvelope = (opts,cb)->
