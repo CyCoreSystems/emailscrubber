@@ -1,3 +1,4 @@
+path = require 'path'
 module.exports = (grunt)->
   grunt.initConfig {
     pkg: grunt.file.readJSON 'package.json'
@@ -18,6 +19,8 @@ module.exports = (grunt)->
         cwd: 'src/'
         src: ['**/*.coffee']
         dest: 'lib/'
+        rename: (dest,src)->
+          return path.join(dest,src.replace(/(\.[^\/.]*)?$/,'.js'))
   }
 
   grunt.loadNpmTasks 'grunt-coffeelint'
