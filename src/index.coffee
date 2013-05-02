@@ -33,4 +33,6 @@ module.exports = (address, options, cb) ->
       cb? err
       return false
     cb? null,res
-    return true
+    if res
+      return true
+    return false
