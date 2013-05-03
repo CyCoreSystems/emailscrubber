@@ -6,14 +6,14 @@ module.exports = (address,cb)->
   domain = parts[1]
   dns.resolveMx domain,(err,addrs)->
     if err
-      return cb? "testmx failed: #{err}"
-    if not addres
-      return cb? "testmx failed: no MX records found"
+      return cb? "testmx failed: #{err}",false
+    if not addrs
+      return cb? "testmx failed: no MX records found",false
     testEnvelope {
       address: address
       servers: addrs
       index: 0
     },(err)->
       if err
-        return cb? "testmx failed: #{err}"
+        return cb? "testmx failed: #{err}",false
       return cb? null,address

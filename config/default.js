@@ -1,5 +1,5 @@
 module.exports = {
    testEnvelope: {
-      fromAddress: 'test@tester.com'
+      fromAddress: 'test@test.com'
    }
 }
