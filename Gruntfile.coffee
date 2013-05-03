@@ -30,4 +30,5 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-nodeunit'
 
   grunt.registerTask 'default',[ 'coffeelint', 'coffee' ]
+  grunt.registerTask 'test',[ 'coffeelint', 'coffee', 'nodeunit' ]
 
