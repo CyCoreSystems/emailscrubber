@@ -1,5 +1,11 @@
 _ = require('underscore')._
 async = require 'async'
+tests =
+  sanitize: require './lib/sanitize'
+  normalize: require './lib/normalize'
+  validate: require './lib/validate'
+  mxonly: require './lib/mxonly'
+  testmx: require './lib/testmx'
 
 module.exports = (address, options, cb) ->
   if options
@@ -18,19 +24,23 @@ module.exports = (address, options, cb) ->
     return false
   
   checks = []
+  # Add dummy function to allow the rest
+  # of the calls have the same signature
+  checks.push (next)->
+    return next null,address
   if opts.sanitize
-    checks.push require './lib/sanitize'
+    checks.push tests.sanitize
   if opts.normalize
-    checks.push require './lib/normalize'
+    checks.push tests.normalize
   if opts.validate
-    checks.push require './lib/validate'
+    checks.push tests.validate
   if opts.mxonly
-    checks.push require './lib/mxonly'
+    checks.push tests.mxonly
   if opts.testmx
-    checks.push require './lib/testmx'
-  async.waterfall checks,(err, res)->
+    checks.push tests.testmx
+  async.waterfall checks,(err,res)->
     if err
-      cb? err
+      cb? err,res
       return false
     cb? null,res
     if res

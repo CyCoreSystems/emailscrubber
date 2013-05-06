@@ -1,6 +1,6 @@
 check = require('validator').check
 
-module.exports = (address, cb)->
+module.exports = (address,cb)->
   try
     check(address).isEmail()
   catch err

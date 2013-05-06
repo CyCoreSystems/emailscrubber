@@ -13,7 +13,8 @@ module.exports = (address,cb)->
       address: address
       servers: addrs
       index: 0
-    },(err)->
+    },(err,address)->
+      # Should only have an error if the test was inconclusive
       if err
         return cb? "testmx failed: #{err}",false
       return cb? null,address

@@ -4,7 +4,7 @@ rejectflag = false
 
 module.exports = testEnvelope = (opts,cb)->
   if opts.index >= opts.servers.length
-    return cb? "All MX servers failed"
+    return cb? "All MX servers failed",false
   client = simplesmtp.connect 25,opts.servers[opts.index].exchange
   client.once 'idle',->
     client.useEnvelope {
@@ -12,12 +12,14 @@ module.exports = testEnvelope = (opts,cb)->
       to: [opts.address]
     }
   client.once 'error',(err)->
-    client.end()
+    client.quit()
     opts.index++
     if err.name is 'RecipientError'
       rejectflag = true
-      return cb? "Server rejected recipient"
+      return cb? null,false
+    if err.name is 'SenderError'
+      return cb? "Sender Address rejected",false
     return testEnvelope opts,cb
   client.once 'message',->
-    client.end()
-    return cb? null
+    client.quit()
+    return cb? null,opts.address
